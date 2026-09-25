@@ -1,5 +1,5 @@
 <?php
-include_once(dirname(__FILE__) . "/cabecera.php");
+include_once(dirname(__FILE__) . "/../../cabecera.php");
 //controlador
 
 //$usuario = getenv("MYSQL_USER");
@@ -20,7 +20,9 @@ function cabecera() {}
 function cuerpo()
 {
 ?>
-    <br><br>
-    <a href="./aplicacion/pruebas/index.php">Pruebecilla</a>
+    <br><br>esto es html 
+    <?php 
+        echo "hola";
+    ?>
 <?php
 }
