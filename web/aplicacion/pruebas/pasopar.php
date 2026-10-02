@@ -1,15 +1,27 @@
 <?php
-include_once(dirname(__FILE__) . "/cabecera.php");
+include_once(dirname(__FILE__) . "/../../cabecera.php");
 //controlador
 
 //$usuario = getenv("MYSQL_USER");
+
+//datos básicos
+$nombre ="Ana";
+$edad = 25;
+
+$basicos =[
+    "nombre"=>$nombre,
+    "edad"=>$edad
+];
+//relleno otras
+
+$otras=rellenarOtras();
 
 //dibuja la plantilla de la vista
 inicioCabecera("Mi aplicacion");
 cabecera();
 finCabecera();
 inicioCuerpo("2DAW APLICACION INDEX");
-cuerpo();  //llamo a la vista
+cuerpo($basicos, $otras);  //llamo a la vista
 finCuerpo();
 // **********************************************************
 
@@ -22,10 +34,17 @@ function cabecera() {
 }
 
 //vista
-function cuerpo()
+function cuerpo($bas, $ot)
 {
 ?>
     <br><br>
     <a href="/aplicacion/pruebas/index.php">Pruebecilla</a>
+
 <?php
+    echo "Mi nombre es {$bas["nombre"]} de {$bas["edad"]} años".PHP_EOL;
+    echo "Con otros datos {$ot}";
+}
+
+function rellenarOtras(){
+    return "de 2DAW";
 }

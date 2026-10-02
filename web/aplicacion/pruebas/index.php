@@ -5,10 +5,10 @@ include_once(dirname(__FILE__) . "/../../cabecera.php");
 //$usuario = getenv("MYSQL_USER");
 
 //dibuja la plantilla de la vista
-inicioCabecera("APLICACION PRIMER TRIMESTRE");
+inicioCabecera("Mi aplicacion");
 cabecera();
 finCabecera();
-inicioCuerpo("2DAW APLICACION");
+inicioCuerpo("PASO PARAMETROS");
 cuerpo();  //llamo a la vista
 finCuerpo();
 // **********************************************************
@@ -24,6 +24,7 @@ function cuerpo()
     Pruebas
     <br><br>
     <a href="basicas.php">Funcionamiento básico</a> 
+    <a href="pasopar.php">Comunicacion controlador-vista</a>
 
 <?php
 }
