@@ -23,7 +23,7 @@ function cuerpo()
     <br><br>
     Pruebas
     <br><br>
-    <a href="basicas.php">Funcionamiento básico</a>
+    <a href="basicas.php">Funcionamiento básico</a> 
 
 <?php
 }
