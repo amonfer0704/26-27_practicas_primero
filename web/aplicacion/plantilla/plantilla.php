@@ -66,6 +66,8 @@ function inicioCuerpo($cabecera)
             <div id="barraMenu">
                 <ul>
                     <li><a href="/index.php">Inicio</a></li>
+                    <li><a href="/aplicacion/pruebas/index.php">Segundo</a></li>
+                    <li><a href="/aplicacion/relacion1/index.php">Ejercicios relacion 1</a></li>
                  </ul> 
                 
             </div>
@@ -83,7 +85,7 @@ function finCuerpo()
             <footer>
                 <hr width="90%"  />  
                 <div>
-                    &copy; Copyright  by Profesor
+                    &copy; Copyright  by Ana
                 </div>
             </footer>
         </div>
