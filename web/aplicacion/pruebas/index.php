@@ -25,6 +25,7 @@ function cuerpo()
     <br><br>
     <a href="basicas.php">Funcionamiento básico</a> 
     <a href="pasopar.php">Comunicacion controlador-vista</a>
+    <a href="./array.php">Arrays</a>
 
 <?php
 }
