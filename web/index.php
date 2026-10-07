@@ -17,7 +17,7 @@ $barra = [
 //$usuario = getenv("MYSQL_USER");
 
 //dibuja la plantilla de la vista
-inicioCabecera("Mi aplicacion", $barra);
+inicioCabecera("Mi aplicacion");
 cabecera();
 finCabecera();
 inicioCuerpo("2DAW APLICACION INDEX", $barra);
