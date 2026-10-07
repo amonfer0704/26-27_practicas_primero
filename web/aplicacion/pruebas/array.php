@@ -21,7 +21,7 @@ function cuerpo()
 {
     $miArray[3] = 54;
     $miArray[7] = 1234;
-    $miArray["nueva"] = 24; array
+    $miArray["nueva"] = 24;
     $miArray[] = "nueva";
     
     $total = 0;
