@@ -39,7 +39,7 @@ function cuerpo(array $vector){
             echo "real) " . $valor . " que al cuadrado es " . pow($valor, 2);
         }
         if(gettype($valor) == "boolean"){
-            echo "boolean) " . $valor . " y su opuesto " . !$valor;
+            echo "boolean) " . $valor . " y su opuesto " . (!$valor?"True":"False");
         }
         if(gettype($valor) == "array"){
             echo "array) ";
