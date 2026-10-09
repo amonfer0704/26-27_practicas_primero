@@ -1,6 +1,21 @@
 <?php
 include_once(dirname(__FILE__) . "/../../cabecera.php");
 //controlador
+$barra = [
+    [
+        "TEXTO" => "inicio",
+        "ENLACE" => "/index.php",
+        "ADICIONAL" => ">>"
+    ],
+    [
+        "TEXTO" => "relacion4",
+        "ENLACE" => "/aplicacion/relacion1/index.php",
+        "ADICIONAL" => ">>"
+    ],
+    [
+        "TEXTO" => "ejercicio4"
+    ]
+];
 const FILAS = 5;
 
 //$usuario = getenv("MYSQL_USER");
@@ -9,7 +24,7 @@ const FILAS = 5;
 inicioCabecera("Ejercicio 4 de la relación 1");
 cabecera();
 finCabecera();
-inicioCuerpo("Ejercicio 4");
+inicioCuerpo("Ejercicio 4", $barra);
 cuerpo();  //llamo a la vista
 finCuerpo();
 // **********************************************************

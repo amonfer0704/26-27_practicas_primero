@@ -84,21 +84,21 @@ function inicioCuerpo(string $cabecera, array $ubicacion =[])
                         echo "</a>";
                     }
 
-                    //otra solución
-                    if(isset($elemento["ENLACE"])){
-                        echo "<a href='{$elemento["ENLACE"]}' > ";
-                        echo $elemento["TEXTO"];
-                        if(isset($elemento["ADICIONAL"]))
-                            echo $elemento["ADICIONAL"];
-                        else
-                            echo "&nbsp;&nbsp;";
-                        echo "</a>";
+                    // //otra solución
+                    // if(isset($elemento["ENLACE"])){
+                    //     echo "<a href='{$elemento["ENLACE"]}' > ";
+                    //     echo $elemento["TEXTO"];
+                    //     if(isset($elemento["ADICIONAL"]))
+                    //         echo $elemento["ADICIONAL"];
+                    //     else
+                    //         echo "&nbsp;&nbsp;";
+                    //     echo "</a>";
 
-                    }
-                    else{
-                        echo $elemento["TEXTO"];
+                    // }
+                    // else{
+                    //     echo $elemento["TEXTO"];
 
-                    }
+                    // }
                 }
 
 

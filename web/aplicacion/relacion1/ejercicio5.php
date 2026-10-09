@@ -4,6 +4,21 @@ use function PHPSTORM_META\type;
 
 include_once(dirname(__FILE__) . "/../../cabecera.php");
 //controlador
+$barra = [
+    [
+        "TEXTO" => "inicio",
+        "ENLACE" => "/index.php",
+        "ADICIONAL" => ">>"
+    ],
+    [
+        "TEXTO" => "relacion5",
+        "ENLACE" => "/aplicacion/relacion1/index.php",
+        "ADICIONAL" => ">>"
+    ],
+    [
+        "TEXTO" => "ejercicio5"
+    ]
+];
 $vector=array();
 $vector[1]="esto es una cadena";
 $vector["posi1"]=25.67;
@@ -16,7 +31,7 @@ $vector[56]=23;
 inicioCabecera("Ejercicio 5 de la relación 1");
 cabecera();
 finCabecera();
-inicioCuerpo("Ejercicio 5");
+inicioCuerpo("Ejercicio 5", $barra);
 cuerpo($vector);  //llamo a la vista
 finCuerpo();
 // **********************************************************

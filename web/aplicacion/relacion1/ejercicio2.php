@@ -1,6 +1,21 @@
 <?php
 include_once(dirname(__FILE__) . "/../../cabecera.php");
 //controlador
+$barra = [
+    [
+        "TEXTO" => "inicio",
+        "ENLACE" => "/index.php",
+        "ADICIONAL" => ">>"
+    ],
+    [
+        "TEXTO" => "relacion2",
+        "ENLACE" => "/aplicacion/relacion1/index.php",
+        "ADICIONAL" => ">>"
+    ],
+    [
+        "TEXTO" => "ejercicio2"
+    ]
+];
 //Definición de la constante lanzamiento
 const LANZAMIENTO = 1000;
 //Creación del array resultadoWhile con clave valor
@@ -40,7 +55,7 @@ for($i = 0; $i < 6; $i++){
 inicioCabecera("Ejercicio 2 de la relación 1");
 cabecera();
 finCabecera();
-inicioCuerpo("Ejercicio 2");
+inicioCuerpo("Ejercicio 2", $barra);
 cuerpo($resultadoFor, $resultadoWhile);  //llamo a la vista
 finCuerpo();
 // **********************************************************

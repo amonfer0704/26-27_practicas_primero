@@ -1,6 +1,21 @@
 <?php
 include_once(dirname(__FILE__) . "/../../cabecera.php");
 //controlador
+$barra = [
+    [
+        "TEXTO" => "inicio",
+        "ENLACE" => "/index.php",
+        "ADICIONAL" => ">>"
+    ],
+    [
+        "TEXTO" => "relacion6",
+        "ENLACE" => "/aplicacion/relacion1/index.php",
+        "ADICIONAL" => ">>"
+    ],
+    [
+        "TEXTO" => "ejercicio6"
+    ]
+];
 $vector=array("primera" =>12.56, 24=>true, 67 =>23.76);
 //$usuario = getenv("MYSQL_USER");
 
@@ -8,7 +23,7 @@ $vector=array("primera" =>12.56, 24=>true, 67 =>23.76);
 inicioCabecera("Ejercicio 6 de la relación 1");
 cabecera();
 finCabecera();
-inicioCuerpo("Ejercicio 6");
+inicioCuerpo("Ejercicio 6", $barra);
 cuerpo($vector);  //llamo a la vista
 finCuerpo();
 // **********************************************************

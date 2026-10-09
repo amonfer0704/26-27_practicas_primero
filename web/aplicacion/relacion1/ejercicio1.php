@@ -1,14 +1,28 @@
 <?php
 include_once(dirname(__FILE__) . "/../../cabecera.php");
 //controlador
-
+$barra = [
+    [
+        "TEXTO" => "inicio",
+        "ENLACE" => "/index.php",
+        "ADICIONAL" => ">>"
+    ],
+    [
+        "TEXTO" => "relacion1",
+        "ENLACE" => "/aplicacion/relacion1/index.php",
+        "ADICIONAL" => ">>"
+    ],
+    [
+        "TEXTO" => "ejercicio1"
+    ]
+];
 //$usuario = getenv("MYSQL_USER");
 
 //dibuja la plantilla de la vista
 inicioCabecera("Ejercicio 1 de la relación 1");
 cabecera();
 finCabecera();
-inicioCuerpo("Ejercicio 1");
+inicioCuerpo("Ejercicio 1", $barra);
 cuerpo();  //llamo a la vista
 finCuerpo();
 // **********************************************************

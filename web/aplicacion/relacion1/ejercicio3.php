@@ -1,6 +1,21 @@
 <?php
 include_once(dirname(__FILE__) . "/../../cabecera.php");
 //controlador
+$barra = [
+    [
+        "TEXTO" => "inicio",
+        "ENLACE" => "/index.php",
+        "ADICIONAL" => ">>"
+    ],
+    [
+        "TEXTO" => "relacion3",
+        "ENLACE" => "/aplicacion/relacion1/index.php",
+        "ADICIONAL" => ">>"
+    ],
+    [
+        "TEXTO" => "ejercicio3"
+    ]
+];
 //Varias sentencias
 //Crear una variable de tipo array
 $array = [];
@@ -53,7 +68,7 @@ $array3 = [
 inicioCabecera("Ejercicio 3 de la relación 1");
 cabecera();
 finCabecera();
-inicioCuerpo("Ejercicio 3");
+inicioCuerpo("Ejercicio 3", $barra);
 cuerpo($array, $array2, $array3);  //llamo a la vista
 finCuerpo();
 // **********************************************************
