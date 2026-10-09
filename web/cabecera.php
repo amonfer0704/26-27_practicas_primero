@@ -7,6 +7,7 @@ if (MODO_TRABAJO=="produccion")
     error_reporting(0);
     else 
         error_reporting(E_ALL);  
+    date_default_timezone_set('Europe/Madrid');
 spl_autoload_register(function ($clase){
     $ruta=RUTABASE."/scripts/clases/";
     $fichero=$ruta."$clase.php";
