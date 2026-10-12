@@ -144,6 +144,7 @@ function cuerpo()
             case 2: $cadena = "dos"; break;
             default: $cadena = "otro";
         }
+        $cadena = date("d/m/Y H:i:s");
     ?>
 <?php
 }
