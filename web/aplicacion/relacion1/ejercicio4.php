@@ -34,6 +34,10 @@ function cabecera() {}
 
 //vista
 function cuerpo(){
+    /**
+     * Generar un array con los siguientes valores mostrándolos posteriormente con foreach. El array se
+     * debe generar usando bucles for.
+     */
     $piramide = [];
     for($i = 1; $i <= FILAS; $i++){
         $fila = [];

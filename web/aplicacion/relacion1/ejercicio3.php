@@ -78,6 +78,7 @@ function cabecera() {}
 
 //vista
 function cuerpo($array, $array2, $array3){
+    //Recorrer los 3 arrays usando foreach mostrando todos los valores de los arrays creados
     echo "Primer array<br>";
     foreach($array as $array1 => $clave){
         if(is_array($array1)){
