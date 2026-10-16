@@ -70,6 +70,17 @@ function cuerpo(){
     echo "<br>";
     }
     //Separa la cadena en partes usando el carácter a
-
+    for($i = 0; $i < strlen($cadena); $i++){
+        echo substr($cadena, $i, 1);
+        if(substr($cadena, $i, 1) == "a"){
+            echo "<br>";
+        }
+        
+    }
+    echo "<br>";
+    //Localiza en la cadena la palabra niña y cambia el siguiente carácter a niña (el espacio en blanco) por "/mujer "
+    if(str_contains($cadena, "niña"))
+        $resultado = str_replace("niña", "/mujer", $cadena);
     
+    echo $resultado;
 }
