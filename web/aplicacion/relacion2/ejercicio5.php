@@ -50,10 +50,39 @@ function cuerpo(){
         Bienvenido a Docker.<br>
         Aquí hay un html &lt;a&gt;Inicio&lt;/a&gt; &lt;h3&gt;Bienvenido&lt;/h3&gt;<br>
         Se han vendido 1984 unidades a 45 euros<br>
-        Escribe tu correo corporativo de esta forma: amonfer0704@g.educaand.es o tu correo personal: correoinexistente@gmail.com
+        Escribe tu correo corporativo de esta forma: amonfer0704@g.educaand.es o tu correo personal: correoinexistente@gmail.com<br><br><br>
     END;
     echo $cadena;
-    //$expHtml = ;
-    $expNum = '/[0-9]+';
-    $expCorreo = '/[A-Za-z]+@[A-Za-z]\.[a-z]+/';
+    $expHtml = '/&lt;[^&]+&gt;/';
+    $expNum = '/[0-9]+/';
+    $expCorreo = '/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[a-z]{2,}/';
+    //html
+    $posicionHtml = 0;
+    $resultadoHtml;
+    preg_match_all($expHtml, $cadena, $resultadoHtml, PREG_OFFSET_CAPTURE);
+    foreach($resultadoHtml[0] as $resultado){
+        $elemento = $resultado[0];
+        $posicionHtml = $resultado[1];
+        echo "HTML " . $elemento . " encontrado en la posición " . $posicionHtml . "<br>";
+    }
+
+    //Números
+    $posicionNumeros = 0;
+    $resultadoNumeros;
+    preg_match_all($expNum, $cadena, $resultadoNumeros, PREG_OFFSET_CAPTURE);
+    foreach($resultadoNumeros[0] as $resultado){
+        $elemento = $resultado[0];
+        $posicionNumeros = $resultado[1];
+        echo "Número " . $elemento . " encontrado en la posición " . $posicionNumeros . "<br>";
+    }
+
+    //Correos
+    $posicionCorreo = 0;
+    $resultadoCorreo;
+    preg_match_all($expCorreo, $cadena, $resultadoCorreo, PREG_OFFSET_CAPTURE);
+    foreach($resultadoCorreo[0] as $resultado){
+        $elemento = $resultado[0];
+        $posicionCorreo = $resultado[1];
+        echo "Correo " . $elemento . " encontrado en la posición " . $posicionCorreo . "<br>";
+    }
 }
