@@ -59,7 +59,11 @@ function inicioCuerpo(string $cabecera, array $ubicacion =[])
             <header>
                 <h1 id="titulo"><?php echo $cabecera;?></h1>
             </header>
-            
+            <div id="imagenHome">
+                <a href="/index.php">
+                    <img src="/imagenes/24x24/home.png" alt="Inicio">
+                </a>
+            </div>
             <div id="barraLogin">
                 
             </div>
