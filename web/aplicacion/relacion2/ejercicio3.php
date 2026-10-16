@@ -13,16 +13,16 @@ $barra = [
         "ADICIONAL" => ">>"
     ],
     [
-        "TEXTO" => "ejercicio1"
+        "TEXTO" => "ejercicio3"
     ]
 ];
 //$usuario = getenv("MYSQL_USER");
 
 //dibuja la plantilla de la vista
-inicioCabecera("Ejercicio 1 de la relación 2");
+inicioCabecera("Ejercicio 3 de la relación 2");
 cabecera();
 finCabecera();
-inicioCuerpo("Ejercicio 1", $barra);
+inicioCuerpo("Ejercicio 3", $barra);
 cuerpo();  //llamo a la vista
 finCuerpo();
 // **********************************************************
