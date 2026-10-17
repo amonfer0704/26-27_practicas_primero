@@ -36,7 +36,8 @@ function cuerpo()
     <br><br>
     <a href="basicas.php">Funcionamiento básico</a> 
     <a href="pasopar.php">Comunicacion controlador-vista</a>
-    <a href="./array.php">Arrays</a>
+    <a href="array.php">Arrays</a>
+    <a href="expresiones_regulares.php">Expresiones regulares</a>
 
 <?php
 }
