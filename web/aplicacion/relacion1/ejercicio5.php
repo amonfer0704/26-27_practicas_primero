@@ -11,7 +11,7 @@ $barra = [
         "ADICIONAL" => ">>"
     ],
     [
-        "TEXTO" => "relacion5",
+        "TEXTO" => "relacion1",
         "ENLACE" => "/aplicacion/relacion1/index.php",
         "ADICIONAL" => ">>"
     ],
