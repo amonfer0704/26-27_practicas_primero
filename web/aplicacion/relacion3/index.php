@@ -65,4 +65,14 @@ function cuerpo()
     echo "El resultado la resta de 20, 3, 4, 5, 6, 7: " . operaciones(2, 20, 3, 4, 5, 6, 7) . "<br>";
     echo "El resultado la multiplicación de 2, 3, 4, 5, 6, 7: " . operaciones(3, 2, 3, 4, 5, 6, 7) . "<br>";
     echo "El resultado la suma de pares e impares de 2, 3, 4, 5, 6, 7: " . operaciones(5, 2, 3, 4, 5, 6, 7);
+    
+    ?>
+    <br><br>
+    <h1>Ejercicio 4</h1>
+    <?php
+    $valor = 10;
+    echo "Con los tres parámetros: " . devuelve($valor, 20, 30) . " y el valor del primero es: " . $valor;
+    echo "<br>Con el primer parámetro únicamente: " . devuelve($valor) . " y el valor del primero es: " . $valor;
+    echo "<br>Con el primer y segundo parámetro: " . devuelve($valor, 20) . " y el valor del primero es: " . $valor;
+    echo "<br>Con el primer y el tercer parámetro: " . devuelve($valor, param3: 30) . " y el valor del primero es: " . $valor;
 }

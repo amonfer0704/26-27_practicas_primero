@@ -92,3 +92,17 @@ function operaciones(int $tipoOperacion, float $num1, float $num2, float ...$arg
     }
     return $resultado;
 }
+
+/**
+ * Ejercicio 4
+ * Función que recibe como parámetros tres números enteros y devuelve la 
+ * suma de los tres valores en el primer parámetro y como resultado de la 
+ * función el producto de los tres valores
+ * @param param1, param2, param3
+ * @return int
+ */
+function devuelve(int &$param1, int $param2 = 4, int $param3 = 5): int{
+    $sumaValor = $param1 * $param2 * $param3;
+    $param1 = $param1 + $param2 + $param3;
+    return $sumaValor;
+}
