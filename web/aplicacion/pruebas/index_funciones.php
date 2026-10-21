@@ -45,6 +45,15 @@ function cuerpo(int $n)
 {
     echo "el doble del numero es $n<br>";
     echo "el número $n es el doble de otro".PHP_EOL;
-
-
+    $numero = variosParametros(25, "2aa8769", 56);
+    echo "Función varios parámetros: ";
+    echo $numero;
+    $numero = variosParametros(25, param3: 100);
+    $func = function(float $a, float $b, float ...$resto): float{
+    $res = $a + $b;
+    foreach($resto as $num){
+        $res += $num;
+    }
+    return $res;
+    };
 }

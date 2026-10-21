@@ -106,3 +106,36 @@ function devuelve(int &$param1, int $param2 = 4, int $param3 = 5): int{
     $param1 = $param1 + $param2 + $param3;
     return $sumaValor;
 }
+
+/**
+ * Ejercicio 5
+ * Se tienen las funciones suma, resta y multiplicacion que reciben cada una dos parámetros
+ * numéricos (entero) y que devuelven el resultado de la operación que indica su nombre sobre los
+ * parámetros.
+ * Tenemos la Función hacerOperacion que recibe tres parámetros. El primero es una cadena
+ * que puede ser suma, resta o multiplicacion. Los otros dos son los operandos. Esta función se
+ * encargará de devolver el resultado de ejecutar la “cadena” con los operandos usando una variable-
+ * función para llamar a la operación. Hay que comprobar indicando una operación correcta (devuelve
+ * false si la operación no es válida).
+ * hacerOperacion(“resta”,3,1) //devuelve 3-1. No se llama directamente a la función resta, se
+* tiene una variable función para ello
+ */
+function suma(int $num1, int $num2): int{
+    return $num1 + $num2;
+}
+function resta(int $num1, int $num2): int{
+    return $num1 - $num2;
+}
+function multiplicacion(int $num1, int $num2): int{
+    return $num1 * $num2;
+}
+function hacerOperacion(string $op, int $num1, int $num2): int|string{
+    $suma = "suma";
+    $resta = "resta";
+    $multiplicacion = "multiplicacion";
+    $resultado = 0;
+    if($op === $suma || $op === $resta || $op === $multiplicacion){
+        return $op($num1, $num2);
+    }
+    return "false";
+}

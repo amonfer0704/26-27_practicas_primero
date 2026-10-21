@@ -75,4 +75,14 @@ function cuerpo()
     echo "<br>Con el primer parámetro únicamente: " . devuelve($valor) . " y el valor del primero es: " . $valor;
     echo "<br>Con el primer y segundo parámetro: " . devuelve($valor, 20) . " y el valor del primero es: " . $valor;
     echo "<br>Con el primer y el tercer parámetro: " . devuelve($valor, param3: 30) . " y el valor del primero es: " . $valor;
+
+    ?>
+    <br><br>
+    <h1>Ejercicio 5</h1>
+    <?php
+    echo "Operaciones<br>";
+    echo "Suma: " . hacerOperacion("suma", 3, 4);
+    echo "<br>Resta: " . hacerOperacion("resta", 10, 5);
+    echo "<br>Multiplicación: " . hacerOperacion("multiplicacion", 2, 2);
+    echo "<br>Error: " . hacerOperacion("dividir", 10, 5);
 }
