@@ -85,4 +85,26 @@ function cuerpo()
     echo "<br>Resta: " . hacerOperacion("resta", 10, 5);
     echo "<br>Multiplicación: " . hacerOperacion("multiplicacion", 2, 2);
     echo "<br>Error: " . hacerOperacion("dividir", 10, 5);
+
+    ?>
+    <br><br>
+    <h1>Ejercicio 6</h1>
+    <?php
+    echo "Suma con la función: " . llamadaAFuncion(1,2,fn($a,$b)=>$a+$b);
+    echo "<br>Resta con la función: " . llamadaAFuncion(5,2,fn($a,$b)=>$a-$b);
+    echo "<br>Multiplicación con la función: " . llamadaAFuncion(2,2,fn($a,$b)=>$a*$b);
+
+    $suma = function(int $num1, int $num2):int{
+        return $num1 + $num2;
+    };
+    $resta = function(int $num1, int $num2):int{
+        return $num1 - $num2;
+    };
+    $multiplicacion = function(int $num1, int $num2):int{
+        return $num1 * $num2;
+    };
+
+    echo "<br>Suma: " . llamadaAFuncion(1, 2, $suma);
+    echo "<br>Resta: " . llamadaAFuncion(10, 5, $resta);
+    echo "<br>Multiplicacion: " . llamadaAFuncion(2, 2, $multiplicacion);
 }
