@@ -175,13 +175,17 @@ function ordenar(array &$array): bool{
     if(count($array) === 0){
         $resultado = false;
     }
-    foreach($array as $clave){
-        if(is_string($clave)){
-            $resultado = false;
+    else{
+        foreach($array as $clave){
+            if(!is_string($clave)){
+                $resultado = false;
+            }
         }
     }
-    usort($array, function($a, $b){
-        return mb_strlen($b) <=> mb_strlen($a);
-    });
+    if($resultado){
+        usort($array, function($a, $b){
+            return mb_strlen($b) <=> mb_strlen($a);
+        });
+    }
     return $resultado;
 }
