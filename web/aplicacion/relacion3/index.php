@@ -107,4 +107,14 @@ function cuerpo()
     echo "<br>Suma: " . llamadaAFuncion(1, 2, $suma);
     echo "<br>Resta: " . llamadaAFuncion(10, 5, $resta);
     echo "<br>Multiplicacion: " . llamadaAFuncion(2, 2, $multiplicacion);
+
+    ?>
+    <br><br>
+    <h1>Ejercicio 7</h1>
+    <?php
+    $vector = array("uno", "grande", "caminos", "a");
+    ordenar($vector); 
+    for($i = 0; $i < count($vector); $i++){
+        echo $vector[$i] . " ";
+    }
 }

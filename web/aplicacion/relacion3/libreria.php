@@ -118,7 +118,10 @@ function devuelve(int &$param1, int $param2 = 4, int $param3 = 5): int{
  * función para llamar a la operación. Hay que comprobar indicando una operación correcta (devuelve
  * false si la operación no es válida).
  * hacerOperacion(“resta”,3,1) //devuelve 3-1. No se llama directamente a la función resta, se
-* tiene una variable función para ello
+ * tiene una variable función para ello
+ * @param integer $num1
+ * @param integer $num2
+ * @return integer
  */
 function suma(int $num1, int $num2): int{
     return $num1 + $num2;
@@ -148,7 +151,38 @@ function hacerOperacion(string $op, int $num1, int $num2): int|string{
  * flecha distintas que tu definas
  * llamadaAFuncion(1,2,fn($a,$b)=>$a+$b)
  * Repetir las llamadas, definiendo las 3 funciones como anónimas (se asignan a variables)
+ * @param integer $op1
+ * @param integer $op2
+ * @param callable $callback
+ * @return integer
  */
 function llamadaAFuncion(int $op1, int $op2, callable $callback): int{
     return $callback($op1, $op2);
+}
+
+/**
+ * Ejercicio 7
+ * Función ordenar(): A esta función se le pasa un array y lo ordena mediante una llamada a usort,
+ * al que se indicará como función callback una función anónima que ordenará en orden descendente
+ * según el número de caracteres de cada elemento.
+ * $vector=array((“uno”,“grande”,“caminos”,”a”)
+ * Ordenar($vector);//el vector debe quedar (“caminos”,”grande”,”uno”,”a”)
+ * @param array $array
+ * @return boolean
+ */
+function ordenar(array &$array): bool{
+    $resultado = true;    
+    if(count($array) === 0){
+        $resultado = false;
+    }
+    foreach($array as $clave){
+        if(is_string($clave)){
+            $resultado = false;
+        }
+    }
+    usort($array, function($a, $b){
+        return mb_strlen($b) <=> mb_strlen($a);
+    });
+    return $resultado;
+
 }
