@@ -113,8 +113,13 @@ function cuerpo()
     <h1>Ejercicio 7</h1>
     <?php
     $vector = array("uno", "grande", "caminos", "a");
-    ordenar($vector); 
-    for($i = 0; $i < count($vector); $i++){
+    if(ordenar($vector)){
+        for($i = 0; $i < count($vector); $i++){
         echo $vector[$i] . " ";
+        }
     }
+    else{
+        echo "No se ha podido ordenar el array";
+    }
+    
 }
