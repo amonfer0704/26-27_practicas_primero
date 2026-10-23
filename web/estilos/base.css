@@ -1,14 +1,18 @@
 @charset "UTF8";
 
 body {
-    background-color: cyan;
+    background-color: #f6f1e7;
     font-size: 16px;
 }
 
 #documento{
     margin: 0 auto;
-    background-color: #39AAAA;
-    width: 700px;
+    background-color: #ffeac1;
+    width: 850px;
+    padding: 10px;
+}
+a{
+    padding-left: 20px;
 }
 #cabecera{
     background-color: #14e737;
@@ -23,10 +27,14 @@ body {
     font-size: 1.3em;
     font-style: italic;
 }
+#titulo{
+    color: #7a1f2b;
+}
 
 #barraUbicacion{
-    background-color: #8fd89b;
+    background-color: #ffcdcd;
     color: black;
+    width: 50%;
     
 }
 
@@ -39,6 +47,7 @@ body {
 .boton a{
     text-decoration: none;
     color:white;
+
 }
 
 .boton a:visited{
@@ -73,8 +82,15 @@ body {
     
 }
 
-.tabla tr.impar{
+#barraMenu li a{
+    text-decoration: none;
     
+
+}
+#barraMenu li{
+    list-style-type: none;
+    display: inline-block;
+    padding-left: 10px;
 }
 
 #pie{

@@ -46,6 +46,6 @@ function cuerpo(){
     $var2 = 379987.24;
     echo "-". str_pad(number_format($var1, 1, ","), 15, "0", STR_PAD_LEFT) . "-";
     echo "<br>";
-    echo "-" . str_pad(number_format($var2, 2, ",", "."), 15, " ", STR_PAD_LEFT) . "-";
+    echo "-" . str_repeat("&nbsp;", 15 - mb_strlen($var2)). $var2 . "-";
 
 }

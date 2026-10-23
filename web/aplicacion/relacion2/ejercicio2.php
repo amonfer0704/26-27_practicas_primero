@@ -81,7 +81,7 @@ function cuerpo(){
     $resultado = "";
     //Localiza en la cadena la palabra niña y cambia el siguiente carácter a niña (el espacio en blanco) por "/mujer "
     if(str_contains($cadena, "niña"))
-        $resultado = str_replace("niña", "/mujer", $cadena);
+        $resultado = str_replace("niña", "/mujer ", $cadena);
     
     echo $resultado;
 }

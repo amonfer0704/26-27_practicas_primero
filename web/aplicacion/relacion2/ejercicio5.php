@@ -58,7 +58,7 @@ function cuerpo(){
     $expCorreo = '/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[a-z]{2,}/';
     //html
     $posicionHtml = 0;
-    $resultadoHtml;
+    $resultadoHtml = "";
     preg_match_all($expHtml, $cadena, $resultadoHtml, PREG_OFFSET_CAPTURE);
     foreach($resultadoHtml[0] as $resultado){
         $elemento = $resultado[0];
@@ -68,7 +68,7 @@ function cuerpo(){
 
     //Números
     $posicionNumeros = 0;
-    $resultadoNumeros;
+    $resultadoNumeros = "";
     preg_match_all($expNum, $cadena, $resultadoNumeros, PREG_OFFSET_CAPTURE);
     foreach($resultadoNumeros[0] as $resultado){
         $elemento = $resultado[0];
@@ -78,7 +78,7 @@ function cuerpo(){
 
     //Correos
     $posicionCorreo = 0;
-    $resultadoCorreo;
+    $resultadoCorreo = "";
     preg_match_all($expCorreo, $cadena, $resultadoCorreo, PREG_OFFSET_CAPTURE);
     foreach($resultadoCorreo[0] as $resultado){
         $elemento = $resultado[0];
