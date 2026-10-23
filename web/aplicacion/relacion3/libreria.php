@@ -184,5 +184,4 @@ function ordenar(array &$array): bool{
         return mb_strlen($b) <=> mb_strlen($a);
     });
     return $resultado;
-
 }
