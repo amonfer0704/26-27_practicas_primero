@@ -30,6 +30,30 @@ class ClasePrueba
         return true;
     }
 }
+
+$programa = Unica::crear(100);
+$programa -> numero = 1;
+$segundaUnica = Unica::crear(300);
+
+$ins = new Instituto();
+
+/**
+ * Sobrecarga
+ */
+$clase1 = new ClaseNormal();
+$clase2 = new ClaseNormal();
+
+$clase1->cadena="hola mundo";
+
+$cad = "";
+if(isset($clase1->cadena))
+    $cad = $clase1->cadena; 
+
+if(isset($clase2->cadena))
+    $cad = $clase2->cadena; 
+
+$clase1 = new ClaseSinSobrecarga();
+$clase1->cadena = "hola";
 //se crea una instancia de la clase prueba
 $instancia=new ClasePrueba();
 //accede a la propiedad pública de la instancia
@@ -74,8 +98,7 @@ class Unica{
         return self::$objeto;
     }
 }
-$programa = Unica::crear(100);
-$programa -> numero = 1;
-$segundaUnica = Unica::crear(300);
 
-$ins = new Instituto();
+
+
+

@@ -1,6 +1,6 @@
 <?php
 
-class IntrumentoBase{
+abstract class InstrumentoBase{
     /**
      * variables de instancia
      *
@@ -52,18 +52,16 @@ class IntrumentoBase{
      *
      * @return string
      */
-    public function sonido(): string {
-        return "Brrrruum";
-    }
+    public abstract function sonido(): string;
+//        return "Brrrruum";
 
     /**
      * Método afinar que devuelve una cadena de pasos que hay que seguir para afinar un instrumento
      *
      * @return string
      */
-    public function afinar(): string{
-        return "Paso 1. Ver si está afinada <br>Paso 2. Si está desafinada, instala una aplicación para afinarla. <br>Paso 3. Sigue los pasos de la aplicación. <br>Paso 4. Ya está afinada";
-    }
+    public abstract function afinar(): string;
+//      return "Paso 1. Ver si está afinada <br>Paso 2. Si está desafinada, instala una aplicación para afinarla. <br>Paso 3. Sigue los pasos de la aplicación. <br>Paso 4. Ya está afinada";
 
     /**
      * Método envejecer que le suma un año a la edad del instrumento
@@ -74,9 +72,37 @@ class IntrumentoBase{
         $this->edad++;
     }
 
+    /**
+     * redefinición del toString
+     *
+     * @return string
+     */
     public function __toString(): string
     {
         return "instrumento con descripcion " . $this->descripcion . ", instancia " . $this->numInstancia . " de un total de " . self::$totalInstancias . ". Tiene " . $this->edad . " años. La clase es " . get_class($this);
     }
 
+    /**
+     * Quitar la sobrecarga de propiedades por defecto
+     */
+    public function __get(string $name): mixed{
+        throw new Exception('No existe la propiedad $name');
+    }
+
+    public function __set(string $name, mixed $value): void
+    {
+        throw new \Exception('No existe la propiedad $name');
+    }
+
+    public function __isset(string $name): bool
+    {
+        return false;
+    }
+
+    public function __unset(string $name):void
+    {
+        throw new \Exception('No existe la propiedad $name');
+    }
+
 }
+?>
