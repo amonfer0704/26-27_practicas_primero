@@ -1,5 +1,5 @@
 <?php
 interface IFabricable{
     function metodoFabricacion():string;
-    function metodoReciclado(string $fabricacion): string;
+    function metodoReciclado(): string;
 }

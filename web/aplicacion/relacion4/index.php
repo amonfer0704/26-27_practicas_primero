@@ -16,6 +16,8 @@ $barra = [
 ];
 
 $violin = new InstrumentoViento("roble", 2);
+$flauta = Flauta::crearDesdeArray(["material"=>"plástico", "edad" => 3]);
+$nuevaFlauta = clone $flauta;
 // $guitarra = new InstrumentoBase("Intrumento de cuerda pero clásica");
 // $bateria = new InstrumentoBase("Intrumento de percusión", 12);
 
@@ -27,7 +29,7 @@ inicioCabecera("Relación 4");
 cabecera();
 finCabecera();
 inicioCuerpo("index", $barra);
-cuerpo($violin);//$violin, $guitarra, $bateria);  //llamo a la vista
+cuerpo($violin, $flauta, $nuevaFlauta);//$violin, $guitarra, $bateria);  //llamo a la vista
 finCuerpo();
 // **********************************************************
 
@@ -35,7 +37,7 @@ finCuerpo();
 function cabecera() {}
 
 //vista
-function cuerpo($violin)//$violin, $guitarra, $bateria
+function cuerpo($violin, $flauta, $nuevaFlauta)//$violin, $guitarra, $bateria
 {
 ?>
     <h1>Ejercicio 1</h1>
@@ -67,4 +69,9 @@ function cuerpo($violin)//$violin, $guitarra, $bateria
         echo "<br>Error: $e";
     }
 
+    ?>
+    <h1>Ejercicio 4</h1>
+    <?php 
+    echo "Flauta: $flauta";
+    echo "<br>Nueva flauta: $nuevaFlauta";
 }

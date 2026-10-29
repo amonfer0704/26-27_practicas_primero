@@ -23,7 +23,6 @@ abstract class InstrumentoBase{
         $this->descripcion = $_descripcion;
         $this->edad = $_edad;
         $this->numInstancia = self::$totalInstancias++;
-        self::$totalInstancias++;
     }
 
     /**
