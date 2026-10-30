@@ -18,6 +18,8 @@ $barra = [
 $violin = new InstrumentoViento("roble", 2);
 $flauta = Flauta::crearDesdeArray(["material"=>"plástico", "edad" => 3]);
 $nuevaFlauta = clone $flauta;
+$casos = EstadoCivil::casos();
+$persona2 = Persona::registrarPersona("Ana", "07/04/2001", "Calle nueva", "Villanueva de la Concepción", $casos[rand(0, count($casos) - 1)]);
 // $guitarra = new InstrumentoBase("Intrumento de cuerda pero clásica");
 // $bateria = new InstrumentoBase("Intrumento de percusión", 12);
 
@@ -29,7 +31,7 @@ inicioCabecera("Relación 4");
 cabecera();
 finCabecera();
 inicioCuerpo("index", $barra);
-cuerpo($violin, $flauta, $nuevaFlauta);//$violin, $guitarra, $bateria);  //llamo a la vista
+cuerpo($violin, $flauta, $nuevaFlauta, $persona2);//$violin, $guitarra, $bateria);  //llamo a la vista
 finCuerpo();
 // **********************************************************
 
@@ -37,7 +39,7 @@ finCuerpo();
 function cabecera() {}
 
 //vista
-function cuerpo($violin, $flauta, $nuevaFlauta)//$violin, $guitarra, $bateria
+function cuerpo($violin, $flauta, $nuevaFlauta, $persona2)//$violin, $guitarra, $bateria
 {
 ?>
     <h1>Ejercicio 1</h1>
@@ -74,4 +76,15 @@ function cuerpo($violin, $flauta, $nuevaFlauta)//$violin, $guitarra, $bateria
     <?php 
     echo "Flauta: $flauta";
     echo "<br>Nueva flauta: $nuevaFlauta";
+
+    ?>
+    <h1>Ejercicio 5</h1>
+    <?php 
+    echo "<br>Persona 2: " . $persona2;
+    ?>
+    <h1>Ejercicio 6</h1>
+    <?php
+     foreach(new SerieFibonacci(10) as $valor){
+         echo "$valor &nbsp";
+    }
 }
