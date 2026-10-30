@@ -22,7 +22,12 @@ $casos = EstadoCivil::casos();
 $persona2 = Persona::registrarPersona("Ana", "07/04/2001", "Calle nueva", "Villanueva de la Concepción", $casos[rand(0, count($casos) - 1)]);
 // $guitarra = new InstrumentoBase("Intrumento de cuerda pero clásica");
 // $bateria = new InstrumentoBase("Intrumento de percusión", 12);
-
+$Objeto= new ClaseMisPropiedades ();
+$Objeto->propPublica="publica";
+//$Objeto->_propPrivada=”privada”; //no es valida al ser privada
+$Objeto->propiedad1=25;
+$Objeto->propiedad2="cadena de texto";
+// echo $Objeto->propiedad3; // esto debería dar un error al no haber asignado previamente la
 //$usuario = getenv("MYSQL_USER");
 
 
@@ -31,7 +36,7 @@ inicioCabecera("Relación 4");
 cabecera();
 finCabecera();
 inicioCuerpo("index", $barra);
-cuerpo($violin, $flauta, $nuevaFlauta, $persona2);//$violin, $guitarra, $bateria);  //llamo a la vista
+cuerpo($violin, $flauta, $nuevaFlauta, $persona2, $Objeto);//$violin, $guitarra, $bateria);  //llamo a la vista
 finCuerpo();
 // **********************************************************
 
@@ -39,7 +44,7 @@ finCuerpo();
 function cabecera() {}
 
 //vista
-function cuerpo($violin, $flauta, $nuevaFlauta, $persona2)//$violin, $guitarra, $bateria
+function cuerpo($violin, $flauta, $nuevaFlauta, $persona2, $Objeto)//$violin, $guitarra, $bateria
 {
 ?>
     <h1>Ejercicio 1</h1>
@@ -49,7 +54,6 @@ function cuerpo($violin, $flauta, $nuevaFlauta, $persona2)//$violin, $guitarra, 
     //     echo "Violín: $violin"; 
     //     echo "<br>Guitarra: $guitarra";
     //     echo "<br>Batería: $bateria";
-
     //     $bateria -> envejecer();
     //     echo "<br>Batería: $bateria";
     // }
@@ -86,5 +90,19 @@ function cuerpo($violin, $flauta, $nuevaFlauta, $persona2)//$violin, $guitarra, 
     <?php
      foreach(new SerieFibonacci(10) as $valor){
          echo "$valor &nbsp";
+    }
+    ?>
+    <h1>Ejercicio 7</h1>
+    <?php 
+    echo "Propiedad 1: " . $Objeto->propiedad1;
+    echo "<br>Propiedad 2: " . $Objeto->propiedad2;
+    try{
+        $Objeto->_propPrivada = "privada";
+    }
+    catch(Exception $e){
+        echo "<br>Error: " . $e->getMessage();
+    }
+    foreach($Objeto as $clave=>$valor){
+        echo "<br>$clave => $valor";
     }
 }

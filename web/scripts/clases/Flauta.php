@@ -21,8 +21,8 @@ final class Flauta extends InstrumentoViento implements IFabricable{
      * @return Flauta miFlauta
      */
     public static function crearDesdeArray(array $datos = []): Flauta{
-        $material = $datos["material"]?$datos["material"]:"madera";
-        $edad = $datos["edad"]?$datos["edad"]:10;
+        $material = isset($datos["material"])?$datos["material"]:"madera";
+        $edad = isset($datos["edad"])?$datos["edad"]:15;
         $miFlauta = new Flauta($material, $edad);
         return $miFlauta;
     }
@@ -53,7 +53,7 @@ final class Flauta extends InstrumentoViento implements IFabricable{
             case "madera": $texto = "Contenedor marrón o al fuego"; break;
             case "plástico": $texto = "Contenedor amarillo"; break;
             case "metal": $texto = "Contenedor amarillo o punto limpio"; break;
-            default: "Material desconocido, llévalo al punto limpio";
+            default: $texto = "Material desconocido, llévalo al punto limpio";
         }
         return "Una madera se puede reciclar si la echas al fuego";
 	}
