@@ -14,11 +14,12 @@ namespace VALNORMAL;
  * @return bool
  */
 function validaEntero(int &$var, int $min, int $max, int $defecto): bool{
+    $resultado = true;
     if($var < $min || $var > $max){
         $var = $defecto;
-        return false;
+        $resultado = false;
     }
-    return true;
+    return $resultado;
 }
 
 /**
@@ -34,11 +35,12 @@ function validaEntero(int &$var, int $min, int $max, int $defecto): bool{
  * @return bool
  */
 function validaReal(float &$var, float $min, float $max, float $defecto): bool{
+    $resultado = true;
     if($var < $min || $var > $max){
         $var = $defecto;
-        return false;
+        $resultado = false;
     }
-    return true;
+    return $resultado;
 }
 
 /**
@@ -53,17 +55,18 @@ function validaReal(float &$var, float $min, float $max, float $defecto): bool{
  * @return bool
  */
 function validaFecha(string &$var, string $defecto): bool{
-    $fechaFormateada = \DateTime::createFromFormat("d/m/Y", $var);
+    $resultado = true;
+    $fechaFormateada = new \DateTime($var);
     if(!$fechaFormateada){
         $var = $defecto;
-        return false;
+        $resultado = false;
     }
     $aux = $fechaFormateada->format("d/m/Y");
     if($aux !== $var){
         $var = $defecto;
-        return false;
+        $resultado = false;
     }
-    return true;
+    return $resultado;
 }
 
 /**
@@ -77,16 +80,64 @@ function validaFecha(string &$var, string $defecto): bool{
  * @return bool
  */
 function validaHora(string &$var, string $defecto): bool{
+    $resultado = true;
     $fechaFormateada = \DateTime::createFromFormat("H:M:s", $var);
     if(!$fechaFormateada){
         $var = $defecto;
-        return false;
+        $resultado = false;
     }
     $aux = $fechaFormateada->format("h:M:s");
     if($aux !== $var){
         $var = $defecto;
-        return false;
+        $resultado = false;
     }
-    return true;
+    return $resultado;
 }
 
+/**
+ * function validaEmail. Esta función comprueba que $var contiene un email correcto en el formato 
+ * aaaaa@bbbb.ccc. En $var se devuelve el email saneado (en caso de no cumplir las condiciones devuelve $defecto). 
+ * La función devuelve true si es correcto y false en caso contrario.
+ *
+ * @param string $var
+ * @param string $defecto
+ * @return boolean
+ */
+function validaEmail(string &$var, string $defecto): bool{
+    $resultado = true;
+    $cadena = "[A-Za-z]+@[A-Za-z]+\.[A-Za-z]{3}";
+    if(!preg_match($cadena, $var)){
+        $var = $defecto;
+        $resultado = false;
+    }
+    $var = mb_strtolower($var);
+    return $resultado;
+}
+
+/**
+ * función que comprueba que $var contiene una cadena de longitud máxima $longitud. En caso de no
+ * cumplir las condiciones se asigna a $var el valor $defecto. La función devuelve true si es
+ * correcto y false en caso contrario
+ *
+ * @param string $var
+ * @param integer $longitud
+ * @param string $defecto
+ * @return boolean
+ */
+function validaCadena(string &$var, int $longitud, string $defecto): bool{
+    $resultado = true;
+    if(mb_strlen($var) > $longitud){
+        $var = $defecto;
+        $resultado = false; 
+    }
+    return $resultado;
+}
+
+function validaExpresion(string &$var, string $expresion, string $defecto): bool{
+    $resultado = true;
+    if(!preg_match($expresion, $var)){
+        $var = $defecto;
+        $resultado = false;
+    }
+    return $resultado;
+}

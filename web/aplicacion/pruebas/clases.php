@@ -42,7 +42,7 @@ $ins = new Instituto();
  */
 $clase1 = new ClaseNormal();
 $clase2 = new ClaseNormal();
-
+$cadena;
 $clase1->cadena="hola mundo";
 
 $cad = "";
