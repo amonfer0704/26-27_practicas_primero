@@ -42,6 +42,7 @@ function cuerpo()
     <a href="expresiones_regulares.php">Expresiones regulares</a>
     <a href="index_funciones.php">Index funciones</a>
     <a href="clases.php">Clases</a>
+    <a href="pagFormulario.php">Página de formulario</a>
 
 <?php
 }

@@ -8,6 +8,6 @@ class ClaseMisPropiedades{
     private mixed $_propiedades;
     public mixed $propPublica;
     private static mixed $_propPrivada = 25;
-
+    
 
 }

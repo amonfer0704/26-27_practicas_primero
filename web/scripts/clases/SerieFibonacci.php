@@ -35,6 +35,12 @@ class SerieFibonacci implements Iterator{
      * Métodos implementados de Iterator
      */
 
+    /**
+     * Devuelve el valor del elemento en el que está el iterator
+     * ahora mismo
+     *
+     * @return integer
+     */
 	public function current(): int
 	{
         $numero = $this->_claveActual;
@@ -42,21 +48,42 @@ class SerieFibonacci implements Iterator{
 		return round($resultado);
 	}
 
+    /**
+     * avanza a la siguiente posición
+     *
+     * @return void
+     */
 	public function next(): void
 	{
 		$this->_claveActual++;
 	}
 
+    /**
+     * Devuelve la clave de la posición actual
+     *
+     * @return integer
+     */
 	public function key(): int
 	{
 		return $this->_claveActual;
 	}
 
+    /**
+     * Comprueba si la posición actual existe. Si devuelve false,
+     * el bucle termina
+     *
+     * @return boolean
+     */
 	public function valid(): bool
 	{
 		return !($this->_claveActual > $this ->_limite);
 	}
 
+    /**
+     * Deja al iterator en la primera posición
+     *
+     * @return void
+     */
 	public function rewind(): void
 	{
 		$this->_claveActual = 0;
