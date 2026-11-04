@@ -133,11 +133,44 @@ function validaCadena(string &$var, int $longitud, string $defecto): bool{
     return $resultado;
 }
 
+/**
+ * función que comprueba que $var cumple con la expresión regular $expresion. 
+ * En caso de no cumplir las condiciones se asigna a $var el valor por $defecto. 
+ * La función devuelve true si es correcto y false en caso contrario.
+ * @param string $var
+ * @param string $expresion
+ * @param string $defecto
+ * @return bool
+ */
 function validaExpresion(string &$var, string $expresion, string $defecto): bool{
     $resultado = true;
     if(!preg_match($expresion, $var)){
         $var = $defecto;
         $resultado = false;
+    }
+    return $resultado;
+}
+
+/**
+ * función comprueba que $var sea igual a uno de los elementos del array $posibles 
+ * ($tipo=1) o a una de las claves del array $posibles ($tipo=2). La función devuelve 
+ * true si es correcta y false en caso contrario.
+ * @param mixed $var
+ * @param array $posibles
+ * @param int $tipo
+ * @return bool
+ */
+function validaRango(mixed $var, array $posibles, int $tipo = 1): bool{
+    $resultado = false;
+    if($tipo === 1){
+        if(\in_array($var, $posibles)){
+            $resultado = true;
+        }
+    }
+    if($tipo === 2){
+        if(\array_key_exists($var, $posibles)){
+            $resultado = true;
+        }
     }
     return $resultado;
 }
