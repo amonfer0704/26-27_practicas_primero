@@ -15,6 +15,7 @@ namespace VALFILTER;
  */
 function validaEntero(int &$var, int $min, int $max, int $defecto): bool{
     $resultado = true;
+    $var = filter_var($var, FILTER_SANITIZE_NUMBER_INT);
     $options = array(
         "options" => array(
         "min_range" => $min,
@@ -42,6 +43,7 @@ function validaEntero(int &$var, int $min, int $max, int $defecto): bool{
  */
 function validaReal(float &$var, float $min, float $max, float $defecto): bool{
     $resultado = true;
+    $var = filter_var($var, FILTER_SANITIZE_NUMBER_FLOAT);
     $options = array(
         "options" => array(
         "min_range" => $min,
@@ -67,16 +69,20 @@ function validaReal(float &$var, float $min, float $max, float $defecto): bool{
  * @return bool
  */
 function validaFecha(string &$var, string $defecto): bool{
-    $resultado = true;
-    $fechaFormateada = new \DateTime($var);
-    if(!$fechaFormateada){
-        $var = $defecto;
-        $resultado = false;
+    $resultado = false;
+    $partes = [];
+    if(preg_match("/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/", trim($var), $partes)){
+        $dia = $partes[1];
+        $mes = $partes[2];
+        $anio = $partes[3];
+        if(checkdate($dia, $mes, $anio)){
+            $var = sprintf("%02d/%02d/%04d", $dia, $mes, $anio);
+            $resultado = true;
+        }
+
     }
-    $aux = $fechaFormateada->format("d/m/Y");
-    if($aux !== $var){
+    if(!$resultado){
         $var = $defecto;
-        $resultado = false;
     }
     return $resultado;
 }
@@ -93,15 +99,18 @@ function validaFecha(string &$var, string $defecto): bool{
  */
 function validaHora(string &$var, string $defecto): bool{
     $resultado = true;
-    $fechaFormateada = \DateTime::createFromFormat("H:M:s", $var);
-    if(!$fechaFormateada){
-        $var = $defecto;
-        $resultado = false;
+    $partes = [];
+    if(preg_match("/^(\d{1,2}):(\d{1,2}):(\d{1,2})$/", trim($var), $partes)){
+        $hora = $partes[1];
+        $minuto = $partes[2];
+        $segundo = $partes[3];
+        if($hora <= 23 && $minuto <= 59 && $segundo <= 59){
+            $var = sprintf("%02d:%02d:%02d", $hora, $minuto, $segundo);
+            $resultado = true;
+        }
     }
-    $aux = $fechaFormateada->format("h:M:s");
-    if($aux !== $var){
+    if(!$resultado){
         $var = $defecto;
-        $resultado = false;
     }
     return $resultado;
 }
@@ -117,18 +126,11 @@ function validaHora(string &$var, string $defecto): bool{
  */
 function validaEmail(string &$var, string $defecto): bool{
     $resultado = true;
-    $cadena = "[A-Za-z]+@[A-Za-z]+\.[A-Za-z]{3}";
-    $options = array(
-        "options" => array(
-            "regexp" => $cadena
-        )
-    );
-   
-    if(filter_var($var, FILTER_VALIDATE_REGEXP, $options) === false){
+    $var = filter_var($var, FILTER_SANITIZE_EMAIL);   
+    if(filter_var($var, FILTER_VALIDATE_REGEXP) === false){
         $var = $defecto;
         $resultado = false;
     }
-    $var = mb_strtolower($var);
     return $resultado;
 }
 

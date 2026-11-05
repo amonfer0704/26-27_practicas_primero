@@ -33,6 +33,7 @@ function cabecera() {}
 function cuerpo()
 {
 ?>
+    <p><a href="/aplicacion/relacion5/prueba_librerias.php">Prueba de las librerías de filtrado y saneamiento</a></p>
 <?php
 
 }
