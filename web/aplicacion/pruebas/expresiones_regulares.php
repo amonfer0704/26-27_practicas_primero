@@ -28,6 +28,15 @@ $exp = '/años/i';
 $resultado = [];
 preg_match($exp, $cadena, $resultado, PREG_OFFSET_CAPTURE);
 
+//busqueda
+$exp = "/\w+(=;)/";
+$cadena = " primera ; segunda tercera; cuarta ; quinta";
+preg_match($exp, $cadena, $resultado, PREG_OFFSET_CAPTURE);
+
+$exp = "/\w+(?=.*;)/";
+$cadena = " primera ; segunda tercera; cuarta ; quinta";
+preg_match($exp, $cadena, $resultado, PREG_OFFSET_CAPTURE);
+
 //busco un número con 2 cifras
 //$usuario = getenv("MYSQL_USER");
 

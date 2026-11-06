@@ -98,7 +98,7 @@ function validaFecha(string &$var, string $defecto): bool{
  * @return bool
  */
 function validaHora(string &$var, string $defecto): bool{
-    $resultado = true;
+    $resultado = false;
     $partes = [];
     if(preg_match("/^(\d{1,2}):(\d{1,2}):(\d{1,2})$/", trim($var), $partes)){
         $hora = $partes[1];
@@ -127,7 +127,7 @@ function validaHora(string &$var, string $defecto): bool{
 function validaEmail(string &$var, string $defecto): bool{
     $resultado = true;
     $var = filter_var($var, FILTER_SANITIZE_EMAIL);   
-    if(filter_var($var, FILTER_VALIDATE_REGEXP) === false){
+    if(filter_var($var, FILTER_VALIDATE_EMAIL) === false){
         $var = $defecto;
         $resultado = false;
     }
