@@ -60,7 +60,7 @@ function validaFecha(string &$var, string $defecto): bool{
         $dia = $partes[1];
         $mes = $partes[2];
         $anio = $partes[3];
-        if(checkdate($dia, $mes, $anio)){
+        if(checkdate($mes, $dia, $anio)){
             $var = sprintf("%02d/%02d/%04d", $dia, $mes, $anio);
             $resultado = true;
         }
