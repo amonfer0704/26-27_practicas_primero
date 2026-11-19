@@ -33,27 +33,34 @@ $puntos = [
 
 if($_SERVER["REQUEST_METHOD"] === "POST"){
     $coordenadaX = isset($_POST["coordenadaX"])?trim($_POST["coordenadaX"]):"";
-    if(!validaEntero($coordenadaX, 0, 500, 0)){
-        $errores["coordenadaX"] = "La coordenada X debe ser un entero entre 0 y 20000";
+    $textoX = $coordenadaX;
+    if(!validaExpresion($textoX, "/^([0-9]|[1-9][0-9]|[1-4][0-9]{2}|500)$/", "")){
+        $errores["coordenadaX"] = "La coordenada X debe ser un entero entre 0 y 500";
     }
     $coordenadaY = isset($_POST["coordenadaY"])?trim($_POST["coordenadaY"]):"";
-    if(!validaEntero($coordenadaY, 0, 500, 0)){
-        $errores["coordenadaY"] = "La coordenada Y debe ser un entero entre 0 y 20000";
+    $textoY = $coordenadaY;
+    if(!validaExpresion($textoY, "/^([0-9]|[1-9][0-9]|[1-4][0-9]{2}|500)$/", "")){
+        $errores["coordenadaY"] = "La coordenada Y debe ser un entero entre 0 y 500";
     }
-    $color = isset($_POST["color"])?$_POST["color"]:0;
+    $color = isset($_POST["color"])?$_POST["color"]:"";
     if(!validaRango($color, $opcionesColor, 2)){
         $errores["color"] = "Debes seleccionar al menos una opción";
         $color = "";
     }
-    $grosor = isset($_POST["grosor"])?$_POST["grosor"]:0;
+    $grosor = isset($_POST["grosor"])?$_POST["grosor"]:"";
     if(!validaRango($grosor, $opcionesGrosor, 2)){
         $errores["grosor"] = "Debes seleccionar al menos una opción";
         $grosor = "";
     }
     if(count($errores) === 0){
         $correcto = true;
+        $puntos[] = new Punto($coordenadaX, $coordenadaY, $color, $grosor);
+        crearImagen($puntos, $rutaImagen);
     }
 
+}
+if(!file_exists($rutaImagen)){
+    crearImagen($puntos, $rutaImagen);
 }
 
 $datos = [
@@ -65,12 +72,15 @@ $datos = [
     "opcionesGrosor" => $opcionesGrosor
 ];
 
+$nombreImagen = nombreImagen();
+$rutaImagen = dirname(__FILE__) . "/../../imagenes/puntos";
+$nombreImagen;
 //dibuja la plantilla de la vista
 inicioCabecera("Relación 7");
 cabecera();
 finCabecera();
 inicioCuerpo("index", $barra);
-cuerpo($datos, $errores, $correcto, $puntos);//llamo a la vista
+cuerpo($datos, $errores, $correcto, $puntos, $nombreImagen);//llamo a la vista
 finCuerpo();
 // **********************************************************
 
@@ -78,7 +88,7 @@ finCuerpo();
 function cabecera() {}
 
 //vista
-function cuerpo(array $datos, array $errores, bool $correcto, array &$puntos) 
+function cuerpo(array $datos, array $errores, bool $correcto, array &$puntos, string $nombreImagen) 
 {
 ?>
 <?php
@@ -86,9 +96,9 @@ function cuerpo(array $datos, array $errores, bool $correcto, array &$puntos)
         $puntos[] = new Punto($datos["coordenadaX"], $datos["coordenadaY"], $datos["color"], $datos["grosor"]);
         echo "El nuevo punto se ha creado correctamente"; 
     }
-    else{
-        formulario($datos, $errores);
-    }
+    formulario($datos, $errores);
+    textArea($puntos);
+    imagen($nombreImagen);
 }
 
 function formulario(array $datos,array $errores){
@@ -101,7 +111,7 @@ function formulario(array $datos,array $errores){
             echo $errores["coordenadaX"];
         }
         ?>
-        <br>
+        <br><br>
         <label>Coordenada Y</label> 
         <input type="text" name= "coordenadaY" id="coordenadaY" value="<?php echo $datos["coordenadaY"]?>">
         <?php  
@@ -109,7 +119,7 @@ function formulario(array $datos,array $errores){
             echo $errores["coordenadaY"];
         }
         ?>
-        <br>
+        <br><br>
         <label>Colores</label>
         <select name="color" id="color">
             <option value="">Elige un color</option>
@@ -128,7 +138,7 @@ function formulario(array $datos,array $errores){
                 echo $errores["color"];
             }
             ?>
-        <br>
+        <br><br>
         <label>Colores</label>
             <?php 
             foreach($datos["opcionesGrosor"] as $clave => $valor){
@@ -149,8 +159,58 @@ function formulario(array $datos,array $errores){
                 echo $errores["grosor"];
             }
             ?>
-            <br>
-            <input type="submit" name="guardar" value="Guardar">
+        <br><br>
+        <input type="submit" name="guardar" value="Guardar">
     </form>
     <?php
+}
+
+function textArea(array $puntos){
+    ?>
+    <br><br>
+    <textarea cols="100" rows="10"><?php 
+        echo "\n";
+        foreach($puntos as $clave=>$valor){
+            echo "Coordenada X: " . $valor->getCoordenadaX() . " Coordenada Y: " . 
+                    $valor->getCoordenadaY() . " Color: " . $valor->getColor() . 
+                    " Grosor: " . $valor->getGrosor() . "\n";
+        }
+        ?>
+    </textarea>
+    <?php
+}
+function imagen(string $nombreImagen){
+    ?>
+    <br><br>
+    <img src="/imagenes/puntos/<?php echo $nombreImagen . "?" . time(); ?>">
+    <?php
+}
+function nombreImagen(): string{
+    $ip = "";
+    if(isset($_SERVER["REMOTE_ADDR"])){
+        $ip = str_replace([".", ":"], "_", $_SERVER["REMOTE_ADDR"]);
+    }
+    $agente = "";
+    if(isset($_SERVER["HTTP_USER_AGENT"])){
+        $agente = $_SERVER["HTTP_USER_AGENT"];
+    }
+    $navegador = "otro";
+    if(mb_strpos($agente, "Firefox") !== false){
+        $navegador = "firefox";
+    }
+    elseif(mb_strpos($agente, "Edg") !== false){
+        $navegador = "edge";
+    }
+    elseif(mb_strpos($agente, "Chrome") !== false){
+        $navegador = "chrome";
+    }
+    elseif(mb_strpos($agente, "Safari") !== false){
+        $navegador = "safari";
+    }
+    return "imagen_" . $ip . "_" . $navegador . ".jpg";
+}
+function crearImagen(array $puntos, string $ruta){
+    if(!file_exists(dirname($ruta))){
+        mkdir($ruta);
+    }
 }
