@@ -30,17 +30,28 @@ $puntos = [
     new Punto(100, 150, "red", 2),
     new Punto(300, 400, "blue", 3)
 ];
-
+$nombreImagen = nombreImagen();
+$rutaImagen = dirname(__FILE__) . "/../../imagenes/puntos/" . $nombreImagen;
 if($_SERVER["REQUEST_METHOD"] === "POST"){
     $coordenadaX = isset($_POST["coordenadaX"])?trim($_POST["coordenadaX"]):"";
-    $textoX = $coordenadaX;
-    if(!validaExpresion($textoX, "/^([0-9]|[1-9][0-9]|[1-4][0-9]{2}|500)$/", "")){
-        $errores["coordenadaX"] = "La coordenada X debe ser un entero entre 0 y 500";
+    try{
+        $textoX = $coordenadaX;
+        if(!validaEntero($textoX, 0, 500, 0)){
+            $errores["coordenadaX"] = "La coordenada X debe ser un entero entre 0 y 500";
+        } 
     }
+    catch(error){
+        $errores["coordenadaX"] = "La coordenada X no puede estar vacía";
+    }   
     $coordenadaY = isset($_POST["coordenadaY"])?trim($_POST["coordenadaY"]):"";
-    $textoY = $coordenadaY;
-    if(!validaExpresion($textoY, "/^([0-9]|[1-9][0-9]|[1-4][0-9]{2}|500)$/", "")){
-        $errores["coordenadaY"] = "La coordenada Y debe ser un entero entre 0 y 500";
+    try{
+        $textoY = $coordenadaY;
+        if(!validaEntero($textoY, 0, 500, 0)){
+            $errores["coordenadaY"] = "La coordenada Y debe ser un entero entre 0 y 500";
+        }
+    }
+    catch(error){
+        $errores["coordenadaY"] = "La coordenada Y no puede estar vacía";
     }
     $color = isset($_POST["color"])?$_POST["color"]:"";
     if(!validaRango($color, $opcionesColor, 2)){
@@ -72,9 +83,6 @@ $datos = [
     "opcionesGrosor" => $opcionesGrosor
 ];
 
-$nombreImagen = nombreImagen();
-$rutaImagen = dirname(__FILE__) . "/../../imagenes/puntos";
-$nombreImagen;
 //dibuja la plantilla de la vista
 inicioCabecera("Relación 7");
 cabecera();
@@ -88,17 +96,19 @@ finCuerpo();
 function cabecera() {}
 
 //vista
-function cuerpo(array $datos, array $errores, bool $correcto, array &$puntos, string $nombreImagen) 
+function cuerpo(array $datos, array $errores, bool $correcto, array $puntos, string $nombreImagen) 
 {
 ?>
 <?php
     if($correcto){
-        $puntos[] = new Punto($datos["coordenadaX"], $datos["coordenadaY"], $datos["color"], $datos["grosor"]);
         echo "El nuevo punto se ha creado correctamente"; 
     }
     formulario($datos, $errores);
     textArea($puntos);
-    imagen($nombreImagen);
+    ?>
+    <br><br>
+    <img src="/imagenes/puntos/<?php echo $nombreImagen?>">
+    <?php
 }
 
 function formulario(array $datos,array $errores){
@@ -139,7 +149,7 @@ function formulario(array $datos,array $errores){
             }
             ?>
         <br><br>
-        <label>Colores</label>
+        <label>Grosor</label>
             <?php 
             foreach($datos["opcionesGrosor"] as $clave => $valor){
                 ?>
@@ -179,12 +189,7 @@ function textArea(array $puntos){
     </textarea>
     <?php
 }
-function imagen(string $nombreImagen){
-    ?>
-    <br><br>
-    <img src="/imagenes/puntos/<?php echo $nombreImagen . "?" . time(); ?>">
-    <?php
-}
+
 function nombreImagen(): string{
     $ip = "";
     if(isset($_SERVER["REMOTE_ADDR"])){
@@ -211,6 +216,20 @@ function nombreImagen(): string{
 }
 function crearImagen(array $puntos, string $ruta){
     if(!file_exists(dirname($ruta))){
-        mkdir($ruta);
+        mkdir(dirname($ruta));
     }
+    $imagenTamaño = imagecreate(510, 510);
+    $imagenColores = imagecolorallocate($imagenTamaño, 255, 255, 255);
+    imagefilledrectangle($imagenTamaño, 0, 0, 510, 510, $imagenColores);
+    foreach($puntos as $punto){
+        $rgb = Punto::COLORES[$punto->getColor()]["rgb"];
+        imageline($imagenTamaño, $punto->getCoordenadaX() - $punto->getGrosor() * 4,
+        $punto->getCoordenadaY() - $punto->getGrosor() * 4, $punto->getCoordenadaX() + $punto->getGrosor() * 4,
+        $punto->getCoordenadaY() + $punto->getGrosor() * 4, imagecolorallocate($imagenTamaño, $rgb[0], $rgb[1], $rgb[2]));
+        imageline($imagenTamaño, $punto->getCoordenadaX() - $punto->getGrosor() * 4,
+        $punto->getCoordenadaY() + $punto->getGrosor() * 4, $punto->getCoordenadaX() + $punto->getGrosor() * 4,
+        $punto->getCoordenadaY() - $punto->getGrosor() * 4, imagecolorallocate($imagenTamaño, $rgb[0], $rgb[1], $rgb[2]));
+    }
+    imagejpeg($imagenTamaño, $ruta, 50);
+    imagefill($imagenTamaño, 0, 0, imagecolorallocate($imagenTamaño, 0, 0, 0));
 }

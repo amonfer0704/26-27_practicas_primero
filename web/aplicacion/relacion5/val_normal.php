@@ -113,6 +113,7 @@ function validaHora(string &$var, string $defecto): bool{
 function validaEmail(string &$var, string $defecto): bool{
     $resultado = true;
     $cadena = "/^[a-z0-9._%+-]+@[a-z0-9-]+(\.[a-z0-9-]+)*\.[a-z]{2,}$/";
+    $var = mb_trim($var);
     if(!preg_match($cadena, $var)){
         $var = $defecto;
         $resultado = false;
