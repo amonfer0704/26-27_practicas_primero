@@ -1,4 +1,7 @@
 <?php
+/**
+ * Importación de cabecera, validación, clase Punto y funciones de Puntos
+ */
 include_once(dirname(__FILE__) . "/../../cabecera.php");
 include_once(dirname(__FILE__) . "/../../scripts/librerias/validacion.php");
 include_once(dirname(__FILE__) . "/../../scripts/clases/Punto.php");
@@ -18,32 +21,60 @@ $barra = [
     ]
 ];
 //$usuario = getenv("MYSQL_USER");
+/**
+ * Variables donde se guarda lo que escribe el usuario en el formulario
+ */
 $coordenadaX = "";
 $coordenadaY = "";
 $color = "";
 $grosor = "";
+
+/**
+ * Opciones de grosos y de color
+ */
 $opcionesGrosor = Punto::GROSORES;
 $opcionesColor = Punto::COLORES;
-$errores = [];
-$correcto = false;
-$puntos = [];
 
+/**
+ * Errores del formulario y array donde se guardan los puntos
+ */
+$errores = [];
+$puntos = [];
+$correcto = false;
+
+/**
+ * Nombre y ruta de la imagen y del fichero de puntos
+ */
 $nombreImagen = nombreFicheros("imagen", "jpg");
 $nombreDatos = nombreFicheros("puntos", "dat");
 $rutaImagen = dirname(__FILE__) . "/../../imagenes/puntos/" . $nombreImagen;
 $rutaDatos = dirname(__FILE__) . "/datosPuntos/" . $nombreDatos;
+
+/**
+ * Cargar los puntos que hay guardados en el fichero
+ */
 $puntos = cargarPuntos($rutaDatos);
+
+/**
+ * Comprobación si se ha pulsado el botón guardar
+ */
 if(isset($_POST["guardar"])){
     $coordenadaX = isset($_POST["coordenadaX"])?trim($_POST["coordenadaX"]):"";
+    /**
+     * Validación de la coordenadaX
+     */
     try{
         $textoX = $coordenadaX;
         if(!validaEntero($textoX, 0, 500, 0)){
             $errores["coordenadaX"] = "La coordenada X debe ser un entero entre 0 y 500";
         } 
     }
-    catch(error){
+    catch(TypeError $e){
         $errores["coordenadaX"] = "La coordenada X no puede estar vacía";
-    }   
+    }
+    /**
+     * Validación de la coordenadaY
+     */
     $coordenadaY = isset($_POST["coordenadaY"])?trim($_POST["coordenadaY"]):"";
     try{
         $textoY = $coordenadaY;
@@ -51,57 +82,107 @@ if(isset($_POST["guardar"])){
             $errores["coordenadaY"] = "La coordenada Y debe ser un entero entre 0 y 500";
         }
     }
-    catch(error){
+    catch(TypeError){
         $errores["coordenadaY"] = "La coordenada Y no puede estar vacía";
     }
+    /**
+     * Validación del color elegido dependiendo de la clase Punto
+     */
     $color = isset($_POST["color"])?$_POST["color"]:"";
     if(!validaRango($color, $opcionesColor, 2)){
         $errores["color"] = "Debes seleccionar al menos una opción";
         $color = "";
     }
+
+    /**
+     * Validación del grosor elegido dependiendo de la clase Punto
+     */
     $grosor = isset($_POST["grosor"])?$_POST["grosor"]:"";
     if(!validaRango($grosor, $opcionesGrosor, 2)){
         $errores["grosor"] = "Debes seleccionar al menos una opción";
         $grosor = "";
     }
-    if(count($errores) === 0){
-        $correcto = true;
-        $puntos[] = new Punto($coordenadaX, $coordenadaY, $color, $grosor);
-        crearImagen($puntos, $rutaImagen);
-        guardarPuntos($rutaDatos, $puntos);
+
+    /**
+     * Si no hay errores, se crea el punto, actualizo la imagen y el fichero
+     */
+    if(count($errores) === 0){  
+        try{
+            $puntos[] = new Punto($coordenadaX, $coordenadaY, $color, $grosor);
+            crearImagen($puntos, $rutaImagen);
+            guardarPuntos($rutaDatos, $puntos);
+            header("Location: /aplicacion/relacion7/index.php");
+            exit;
+
+        } 
+        catch(Exception $e){
+            $errores["guardar"] = "Error con la creación del punto";
+        }
+        catch(TypeError $e){
+            $errores["guardar"] = "Error con el tipado de los valores";
+        }
     }
 
 }
+
+/**
+ * Comprobación si se ha pulsado el botón borrar
+ */
 if(isset($_POST["borrar"])){
     $posicion = isset($_POST["borrarPuntos"])?$_POST["borrarPuntos"]:"";
+
+    /**
+     * Si la posición elegida existe, borro el punto y actualizo el fichero
+     */
     if(validaRango($posicion, $puntos, 2)){
         unset($puntos[$posicion]);
         guardarPuntos($rutaDatos, $puntos);
         $puntos = cargarPuntos($rutaDatos);
         crearImagen($puntos, $rutaImagen);
+        header("Location: /aplicacion/relacion7/index.php");
+        exit;
     }
     else{
         $errores["borrar"] = "Debes seleccionar un punto";
     }
 }
+
+/**
+ * Comprobación si se ha pulsado el botón subir
+ */
 if(isset($_POST["subir"])){
+    /**
+     * Si el fichero se ha subido bien, el error vale 0
+     */
     $errorSubida = isset($_FILES["fichero"]["error"])?$_FILES["fichero"]["error"]:4;
     if($errorSubida == 0){
+        /**
+         * Se cargan los puntos del fichero y se añade los que tenía
+         */
         $nuevoPunto = cargarPuntos($_FILES["fichero"]["tmp_name"]);
         foreach($nuevoPunto as $punto){
             $puntos[] = $punto;
         }
         guardarPuntos($rutaDatos, $puntos);
         crearImagen($puntos, $rutaImagen);
+        header("Location: /aplicacion/relacion7/index.php");
+        exit;
     }
     else{
         $errores["subir"] = "Debes seleccionar un fichero";
     }
 }
+
+/**
+ * Si la imagen no existe, se crea
+ */
 if(!file_exists($rutaImagen)){
     crearImagen($puntos, $rutaImagen);
 }
 
+/**
+ * array de datos para pasarlos todos al cuerpo
+ */
 $datos = [
     "coordenadaX" => $coordenadaX,
     "coordenadaY" => $coordenadaY,
@@ -143,6 +224,13 @@ function cuerpo(array $datos, array $errores, bool $correcto, array $puntos, str
     <?php
 }
 
+/**
+ * Método que muestra el formulario para añadir puntos
+ *
+ * @param array $datos parámetros del formulario, opciones de color y grosor
+ * @param array $errores errores de cada campo
+ * @return void
+ */
 function formulario(array $datos,array $errores){
     ?>
     <form action ="/aplicacion/relacion7/index.php" method="post">
@@ -207,10 +295,16 @@ function formulario(array $datos,array $errores){
     <?php
 }
 
+/**
+ * Método que muestra los puntos en un textarea
+ *
+ * @param array $puntos array de puntos
+ * @return void
+ */
 function textArea(array $puntos){
     ?>
     <br><br>
-    <textarea cols="100" rows="10"><?php 
+    <textarea cols="100" rows="10" readonly><?php 
         echo "\n";
         foreach($puntos as $clave=>$valor){
             echo "Coordenada X: " . $valor->getCoordenadaX() . " Coordenada Y: " . 
@@ -222,6 +316,13 @@ function textArea(array $puntos){
     <?php
 }
 
+/**
+ * Método que muestra el formulario con un combo para elegir el punto que se quiere borrar
+ *
+ * @param array $puntos array de puntos
+ * @param array $errores errores de los formularios
+ * @return void
+ */
 function formularioBorrar(array $puntos, array $errores){
     ?>
     <form action ="/aplicacion/relacion7/index.php" method="post">
@@ -246,18 +347,26 @@ function formularioBorrar(array $puntos, array $errores){
     <?php
 }
 
+/**
+ * Método que muestra el formulario para subir el fichero de puntos
+ *
+ * @param array $errores errores de los formularios
+ * @return void
+ */
 function formularioSubir(array $errores){
     ?>
     <br>
     <form action="/aplicacion/relacion7/index.php" method="post" enctype="multipart/form-data">
         <label>Fichero de puntos</label>
+        <br>
         <input type="file" name="fichero">
+        <br>
         <?php 
+        echo "<input type='submit' name='subir' value='Subir fichero'> ";
         if(isset($errores["subir"])){
             echo $errores["subir"];
         }
         ?>
-        <input type="submit" name="subir" value="Subir fichero">
     </form>
     <?php
 }

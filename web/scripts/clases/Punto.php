@@ -1,22 +1,51 @@
 <?php 
 
+/**
+ * Clase Punto que representa un punto de la imagen
+ */
 class Punto{
+
+    /**
+     * Posibles colores donde la clave es el nombre en inglés, nombre es en español y 
+     * rgb son los valores
+     */
     public const COLORES = [
         "black" => ["nombre" => "negro", "rgb" =>[0,0,0]],
         "red" => ["nombre" => "rojo", "rgb" => [255, 0, 0]],
         "green" => ["nombre" => "verde", "rgb" => [0, 255, 0]],
         "blue" => ["nombre" => "azul", "rgb" => [0, 0, 255]]
     ];
+
+    /**
+     * Posibles grosores, la clave es el valor que se guarda y el texto lo que se
+     * muestra
+     */
     public const GROSORES = [
         1 => "fino",
         2 => "medio",
         3 => "grueso"
     ];
+    /**
+     * Propiedades de instancia
+     *
+     * @var integer coordenadaX
+     * @var integer coordenadaY
+     * @var string color
+     * @var int grosor
+     */
     private int $_coordenadaX;
     private int $_coordenadaY;
     private string $_color;
     private int $_grosor;
 
+    /**
+     * Constructor al que se le pasan las propiedades
+     *
+     * @param integer $coordenadaX
+     * @param integer $coordenadaY
+     * @param string $color
+     * @param integer $grosor
+     */
     public function __construct(int $coordenadaX, int $coordenadaY, string $color, int $grosor)
     {
         if(!$this->setCoordenadaX($coordenadaX))
@@ -30,6 +59,12 @@ class Punto{
             throw new Exception("El grosor seleccionado no es una opción");
     }
 
+    /**
+     * Setters y Getters con validación de todas las variables
+     *
+     * @param integer $coordenadaX
+     * @return boolean
+     */
     public function setCoordenadaX(int $coordenadaX): bool{
         $resultado = true;
         if(!validaEntero($coordenadaX, 0, 20000, 0))
@@ -84,6 +119,12 @@ class Punto{
         return $this->_grosor;
     }
 
+    /**
+     * Métodos mágicos para que no se creen propiedades dinámicas
+     *
+     * @param mixed $name
+     * @param [type] $value
+     */
     public function __set(mixed $name, $value)
     {
         throw new \Exception("La propiedad $name no existe");

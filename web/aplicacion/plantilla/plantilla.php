@@ -89,12 +89,13 @@ function inicioCuerpo(string $cabecera, array $ubicacion =[])
                             echo "<a href = '{$elemento["ENLACE"]}'>";
                         }
                         echo $elemento["TEXTO"] . "&nbsp;&nbsp;";
+                        if(isset($elemento["ENLACE"])){
+                            echo "</a>";
+                        }
                     }
                     if (isset($elemento["ADICIONAL"])) {
                         echo "&nbsp;&nbsp;" . $elemento["ADICIONAL"];
                     }
-                    
-                    echo "</a>";
                     
                     echo "&nbsp;&nbsp;";
 
