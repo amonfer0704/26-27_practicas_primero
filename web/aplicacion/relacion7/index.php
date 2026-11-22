@@ -2,6 +2,7 @@
 include_once(dirname(__FILE__) . "/../../cabecera.php");
 include_once(dirname(__FILE__) . "/../../scripts/librerias/validacion.php");
 include_once(dirname(__FILE__) . "/../../scripts/clases/Punto.php");
+include_once(dirname(__FILE__) . "/../../scripts/librerias/funcionesPuntos.php");
 //controlador
 $barra = [
     [
@@ -25,14 +26,14 @@ $opcionesGrosor = Punto::GROSORES;
 $opcionesColor = Punto::COLORES;
 $errores = [];
 $correcto = false;
-$puntos = [
-    new Punto(10, 20, "black", 1),
-    new Punto(100, 150, "red", 2),
-    new Punto(300, 400, "blue", 3)
-];
-$nombreImagen = nombreImagen();
+$puntos = [];
+
+$nombreImagen = nombreFicheros("imagen", "jpg");
+$nombreDatos = nombreFicheros("puntos", "dat");
 $rutaImagen = dirname(__FILE__) . "/../../imagenes/puntos/" . $nombreImagen;
-if($_SERVER["REQUEST_METHOD"] === "POST"){
+$rutaDatos = dirname(__FILE__) . "/datosPuntos/" . $nombreDatos;
+$puntos = cargarPuntos($rutaDatos);
+if(isset($_POST["guardar"])){
     $coordenadaX = isset($_POST["coordenadaX"])?trim($_POST["coordenadaX"]):"";
     try{
         $textoX = $coordenadaX;
@@ -67,8 +68,35 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
         $correcto = true;
         $puntos[] = new Punto($coordenadaX, $coordenadaY, $color, $grosor);
         crearImagen($puntos, $rutaImagen);
+        guardarPuntos($rutaDatos, $puntos);
     }
 
+}
+if(isset($_POST["borrar"])){
+    $posicion = isset($_POST["borrarPuntos"])?$_POST["borrarPuntos"]:"";
+    if(validaRango($posicion, $puntos, 2)){
+        unset($puntos[$posicion]);
+        guardarPuntos($rutaDatos, $puntos);
+        $puntos = cargarPuntos($rutaDatos);
+        crearImagen($puntos, $rutaImagen);
+    }
+    else{
+        $errores["borrar"] = "Debes seleccionar un punto";
+    }
+}
+if(isset($_POST["subir"])){
+    $errorSubida = isset($_FILES["fichero"]["error"])?$_FILES["fichero"]["error"]:4;
+    if($errorSubida == 0){
+        $nuevoPunto = cargarPuntos($_FILES["fichero"]["tmp_name"]);
+        foreach($nuevoPunto as $punto){
+            $puntos[] = $punto;
+        }
+        guardarPuntos($rutaDatos, $puntos);
+        crearImagen($puntos, $rutaImagen);
+    }
+    else{
+        $errores["subir"] = "Debes seleccionar un fichero";
+    }
 }
 if(!file_exists($rutaImagen)){
     crearImagen($puntos, $rutaImagen);
@@ -104,10 +132,14 @@ function cuerpo(array $datos, array $errores, bool $correcto, array $puntos, str
         echo "El nuevo punto se ha creado correctamente"; 
     }
     formulario($datos, $errores);
+    formularioBorrar($puntos, $errores);
+    formularioSubir($errores);
     textArea($puntos);
     ?>
     <br><br>
     <img src="/imagenes/puntos/<?php echo $nombreImagen?>">
+    <br><br>
+    <a href="/aplicacion/relacion7/imagen.php">Descargar</a>
     <?php
 }
 
@@ -190,46 +222,42 @@ function textArea(array $puntos){
     <?php
 }
 
-function nombreImagen(): string{
-    $ip = "";
-    if(isset($_SERVER["REMOTE_ADDR"])){
-        $ip = str_replace([".", ":"], "_", $_SERVER["REMOTE_ADDR"]);
-    }
-    $agente = "";
-    if(isset($_SERVER["HTTP_USER_AGENT"])){
-        $agente = $_SERVER["HTTP_USER_AGENT"];
-    }
-    $navegador = "otro";
-    if(mb_strpos($agente, "Firefox") !== false){
-        $navegador = "firefox";
-    }
-    elseif(mb_strpos($agente, "Edg") !== false){
-        $navegador = "edge";
-    }
-    elseif(mb_strpos($agente, "Chrome") !== false){
-        $navegador = "chrome";
-    }
-    elseif(mb_strpos($agente, "Safari") !== false){
-        $navegador = "safari";
-    }
-    return "imagen_" . $ip . "_" . $navegador . ".jpg";
+function formularioBorrar(array $puntos, array $errores){
+    ?>
+    <form action ="/aplicacion/relacion7/index.php" method="post">
+        <select name="borrarPuntos">
+            <option value="">Seleccione un punto</option>
+            <?php 
+            foreach($puntos as $clave => $valor){
+                echo "<option value='$clave'>" . $clave . " - " . $valor->getCoordenadaX() . 
+                ", " . $valor->getCoordenadaY() . ", " . $valor->getGrosor() . ", " .
+                $valor->getColor() .  "</option>";
+            }
+            ?>
+        </select>
+        <?php 
+        if(isset($errores["borrar"])){
+            echo $errores["borrar"];
+        }
+        ?>
+        <input type="submit" name="borrar" value="Borrar">
+    </form>
+
+    <?php
 }
-function crearImagen(array $puntos, string $ruta){
-    if(!file_exists(dirname($ruta))){
-        mkdir(dirname($ruta));
-    }
-    $imagenTamaño = imagecreate(510, 510);
-    $imagenColores = imagecolorallocate($imagenTamaño, 255, 255, 255);
-    imagefilledrectangle($imagenTamaño, 0, 0, 510, 510, $imagenColores);
-    foreach($puntos as $punto){
-        $rgb = Punto::COLORES[$punto->getColor()]["rgb"];
-        imageline($imagenTamaño, $punto->getCoordenadaX() - $punto->getGrosor() * 4,
-        $punto->getCoordenadaY() - $punto->getGrosor() * 4, $punto->getCoordenadaX() + $punto->getGrosor() * 4,
-        $punto->getCoordenadaY() + $punto->getGrosor() * 4, imagecolorallocate($imagenTamaño, $rgb[0], $rgb[1], $rgb[2]));
-        imageline($imagenTamaño, $punto->getCoordenadaX() - $punto->getGrosor() * 4,
-        $punto->getCoordenadaY() + $punto->getGrosor() * 4, $punto->getCoordenadaX() + $punto->getGrosor() * 4,
-        $punto->getCoordenadaY() - $punto->getGrosor() * 4, imagecolorallocate($imagenTamaño, $rgb[0], $rgb[1], $rgb[2]));
-    }
-    imagejpeg($imagenTamaño, $ruta, 50);
-    imagefill($imagenTamaño, 0, 0, imagecolorallocate($imagenTamaño, 0, 0, 0));
+
+function formularioSubir(array $errores){
+    ?>
+    <br>
+    <form action="/aplicacion/relacion7/index.php" method="post" enctype="multipart/form-data">
+        <label>Fichero de puntos</label>
+        <input type="file" name="fichero">
+        <?php 
+        if(isset($errores["subir"])){
+            echo $errores["subir"];
+        }
+        ?>
+        <input type="submit" name="subir" value="Subir fichero">
+    </form>
+    <?php
 }
