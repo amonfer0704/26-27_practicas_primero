@@ -45,6 +45,7 @@ function cuerpo()
     <a href="pagFormulario.php">Página de formulario</a>
     <a href="cargarpagina.php">Cargar página</a>
     <a href="pruebaImagen.php">Prueba imagen</a>
+    <a href="pruebacookie-sesion.php">Prueba cookie y sesión</a>
 
 <?php
 }
